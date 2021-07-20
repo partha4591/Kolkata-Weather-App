@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+        integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Kolkata Weather App</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Exo:wght@100;300&display=swap');
+
+        body{
+            height: 55em;
+        }
+
+        .app {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            width: 28%;
+            margin: auto;
+            /* border: 2px solid blue; */
+            height: 38rem;
+            background-color: #a0870f;
+            box-shadow: blue 1px -1px 12px 7px;
+        }
+
+        #date {
+            font-weight: bolder;
+            letter-spacing: 3px;
+            font-size: 1.1em;
+        }
+
+        #weathercondition .fas {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: scale(7);
+            /* animation: name duration timing-function delay iteration-count direction fill-mode; */
+            animation: weather 1s ease-in-out 0s infinite forwards;
+        }
+
+        @keyframes weather {
+            from {
+                transform: scale(7);
+            }
+
+            to {
+                transform: scale(7.2);
+            }
+        }
+
+        #street {
+            color: rgb(8, 7, 7);
+            position: relative;
+            margin-right: 19px;
+            transform: scale(1.3);
+            animation: street 3s ease-in-out 0s infinite forwards;
+        }
+
+        @keyframes street {
+            from {
+                margin-right: 7px;
+            }
+
+            to {
+                margin-right: 4px;
+            }
+        }
+
+        .info {
+            font-family: 'Exo', sans-serif;
+            text-align: center;
+        }
+
+        .one {
+            /* border: 2px solid black; */
+            width: 35rem;
+            margin: auto;
+            height: 33rem;
+            position: absolute;
+            top: 15em;
+            right: 24em;
+            border-radius: 24rem;
+            background-color: rgb(230 230 220 / 14%);
+            animation: waveone 1s ease-in-out 0s infinite alternate;
+            overflow: hidden;
+        }
+
+        @keyframes waveone {
+            from {
+                transform: translateX(-0.5rem);
+            }
+
+            to {
+                transform: translateX(0.5rem);
+            }
+        }
+
+        .two {
+            width: 15.9rem;
+            margin: auto;
+            height: 13rem;
+            position: absolute;
+            top: 15em;
+            right: 26em;
+            border-radius: 24rem;
+            animation: wavetwo 3s ease-in-out 0s infinite alternate;
+            background-color: rgb(240 255 255 / 30%);
+            overflow: hidden;
+            padding: 8.3em;
+        }
+
+        @keyframes wavetwo {
+            from {
+                transform: rotate(90deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+
+
+        @media only screen and (max-width: 1024px) {
+            .one {
+                right: 15em;
+            }
+
+            .two {
+                right: 15em;
+            }
+
+            .app {
+                width: 46%;
+            }
+        }
+
+        @media only screen and (min-width: 360px) and (max-width: 500px) {
+            .app {
+                width: 70%;
+            }
+
+            .one {
+                right: 0;
+            }
+
+            .two {
+                right: -2em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wave one"></div>
+    <div class="wave two"></div>
+
+    <section class="app">
+        <div id="weathercondition">
+            <i class='fas  fa-sun' style='color: yellow;'></i>
+        </div>
+
+        <div class="info">
+            <h2 class="location">
+                <i class="fas fa-street-view" id="street" style="color: rgb(8, 7, 7);"></i>
+                {%location%},{%country%}
+            </h2>
+            <p id="date">TUE | 19 JULY 2021 | 12:10PM</p>
+            <h1 class="temp">{%tempval%}&deg;C</h1>
+            <h3 class="minmaxtemp">MIN {%tempminval%}&deg;C | MAX {%tempmaxval%}&deg;C</h3>
+        </div>
+    </section>
+    <script>
+        const currentDate = document.getElementById('date');
+        let weatherCondition = document.getElementById('weathercondition');
+
+        const temperatureStatus = "{%tempstatus%}";
+
+        //condition to check sunny or cloudy
+        if (temperatureStatus == "Sunny") {
+            weatherCondition.innerHTML =
+                "<i class='fas  fa-sun' style='color: yellow;'></i>";
+        } else if (temperatureStatus == "Haze") {
+            weatherCondition.innerHTML =
+                "<i class='fas  fa-cloud' style='color: #33cc33;'></i>";
+        } else if (temperatureStatus == "Rainy") {
+            weatherCondition.innerHTML =
+                "<i class='fas  fa-cloud-rain' style='color: #a4b0be;'></i>";
+        } else {
+            weatherCondition.innerHTML =
+                "<i class='fas  fa-cloud' style='color: #f1f2f6;'></i>";
+        }
+
+
+
+        const getCurrentDay = () => {
+            let weekday = new Array(7);
+            weekday[0] = 'SUN';
+            weekday[1] = 'MON';
+            weekday[2] = 'TUE';
+            weekday[3] = 'WED';
+            weekday[4] = 'THURS';
+            weekday[5] = 'FRI';
+            weekday[6] = 'SAT';
+
+            let currentTime = new Date();
+            return weekday[currentTime.getDay()];
+        }
+
+        const getCurrentTime = () => {
+            const months = [
+                'JAN',
+                'FEB',
+                'MAR',
+                'APR',
+                'MAY',
+                'JUN',
+                'JULY',
+                'AUG',
+                'SEPT',
+                'OCT',
+                'NOV',
+                'DEC'
+            ];
+
+            let now = new Date();
+            let month = months[now.getMonth()];
+            let date = now.getDate();
+            let year = now.getFullYear();
+            let hours = now.getHours();
+            let mins = now.getMinutes();
+
+            let period = 'AM';
+            if (hours > 12) {
+                period = 'PM';
+                hours -= 12;
+            }
+            else if (mins < 10) {
+                mins = "0" + mins;
+            }
+            else if ((hours == 12) && (mins == 0))
+                period = 'NOON';
+
+
+            else if (hours < 10)
+                hours = '0' + hours;
+
+            return `${date} ${month} ${year} | ${hours}:${mins}${period}`;
+        }
+
+        currentDate.innerHTML = `${getCurrentDay()} | ${getCurrentTime()}`;
+
+
+
+
+    </script>
+</body>
+
+</html>
