@@ -42,5 +42,5 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(port, "127.0.0.1", ()=>{
-    console.log('Server is running');
+    console.log(`Server is running at port ${port}`);
 });
